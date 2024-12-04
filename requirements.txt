@@ -1,0 +1,14 @@
+fastapi
+requests
+pydantic
+PyPDF2
+langchain-community
+langchain
+langchain-huggingface
+transformers
+torch
+faiss-cpu
+protobuf
+sentencepiece
+google-auth
+gradio

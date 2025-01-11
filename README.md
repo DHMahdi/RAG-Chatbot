@@ -6,51 +6,60 @@ The following sequence diagram illustrates the end-to-end workflow of the RAG ch
 
 ```mermaid
 sequenceDiagram
-  participant U as User
-  participant FE as Frontend (Gradio)
-  participant BE as Backend (FastAPI)
-  participant PP as PDF Processor (LangChain)
-  participant VS as Vector Store (FAISS)
-  participant LLM as Language Model (Flan-T5-Base)
+    participant U as User
+    participant FE as Frontend (Gradio)
+    participant BE as Backend (FastAPI)
+    participant PP as PDF Processor (LangChain)
+    participant VS as Vector Store (FAISS)
+    participant LLM as Language Model (Flan-T5-Base)
 
-  U ->> FE: Upload PDF document
-  FE ->> BE: POST /upload endpoint
-  rect rgb(200, 220, 255)
-    Note over BE, PP: Document Processing Phase
-    BE ->> PP: Check document integrity
-    PP ->> PP: Parse PDF
-    PP ->> PP: Chunk document
-    PP ->> PP: Generate embeddings (SBERT)
-    PP ->> VS: Store embeddings in FAISS
-    PP -->> BE: Processing complete
-  end
-  U ->> FE: Submit query/question
-  FE ->> BE: POST /chat endpoint
-  rect rgb(220, 240, 220)
-    Note over BE, LLM: Query Processing Phase
-    BE ->> BE: Generate query embedding (SBERT)
-    BE ->> VS: Perform similarity search
-    VS -->> BE: Return relevant chunks
-    BE ->> LLM: Generate response with context
-    LLM -->> BE: Return generated response
-  end
-  BE -->> FE: Return formatted response
-  FE -->> U: Display response
-  Note over U, LLM: Error Handling
-  rect rgb(255, 220, 220)
-    BE -->> FE: Invalid document error
-    BE -->> FE: Processing error
-    BE -->> FE: No relevant info found
-    FE -->> U: Display error message
-  end
+    U->>FE: Upload PDF document
+    FE->>BE: POST /upload endpoint
+    
+    rect rgb(153, 204, 255)
+        Note over BE,PP: Document Processing Phase
+        BE->>PP: Check document integrity
+        PP->>PP: Parse PDF
+        PP->>PP: Chunk document
+        PP->>PP: Generate embeddings (SBERT)
+        PP->>VS: Store embeddings in FAISS
+        PP-->>BE: Processing complete
+    end
+
+    U->>FE: Submit query/question
+    FE->>BE: POST /chat endpoint
+    
+    rect rgb(144, 238, 144)
+        Note over BE,LLM: Query Processing Phase
+        BE->>BE: Generate query embedding (SBERT)
+        BE->>VS: Perform similarity search
+        VS-->>BE: Return relevant chunks
+        BE->>LLM: Generate response with context
+        LLM-->>BE: Return generated response
+    end
+    
+    BE-->>FE: Return formatted response
+    FE-->>U: Display response
+
+    Note over U,LLM: Error Handling
+    rect rgb(255, 182, 193)
+        BE-->>FE: Invalid document error
+        BE-->>FE: Processing error
+        BE-->>FE: No relevant info found
+        FE-->>U: Display error message
+    end
 ```
 
 # Installation
 
 ## Clone the repository
 
+```Terminal
 git clone https://github.com/dhmahdi/rag-chatbot.git
+```
+```Terminal
 cd rag-chatbot
+```
 
 ## Use a virtual environment (optional)
 
@@ -59,7 +68,7 @@ python -m venv venv
 ```
 
 ```MacOS / Linux
-venv\Scripts\activate
+source venv/bin/activate
 ```
 
 ```Windows
@@ -119,7 +128,7 @@ Connect to the FastAPI backend for processing and response generation.
 # UI
 
 <div align="center">
-  <img src="UI.png" alt="Chatbot's UI" width="500">
+  <img src="UI.png" alt="Chatbot's UI">
 </div>
 
 # Future Improvements

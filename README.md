@@ -130,7 +130,7 @@ Connect to the FastAPI backend for processing and response generation.
 # UI
 
 <div align="center">
-  <img src="UI.png" alt="Chatbot's UI">
+  <img src="ChatbotUI.png" alt="Chatbot's UI">
 </div>
 
 # Future Improvements

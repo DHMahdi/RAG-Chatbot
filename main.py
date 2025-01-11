@@ -1,4 +1,4 @@
-# Import necessary libraries
+# Import necessary libraries.
 import gradio as gr  
 import requests  
 from typing import List, Tuple  

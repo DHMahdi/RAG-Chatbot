@@ -4,7 +4,46 @@ A Retrieval-Augmented Generation (RAG) chatbot built using FastAPI, Gradio, and 
 
 The following sequence diagram illustrates the end-to-end workflow of the RAG chatbot.
 
-<img src="https://www.mermaidchart.com/raw/fb57781b-12fd-4cae-8d07-e7cbcb250e61?theme=light&version=v0.1&format=svg" alt="How a RAG Chatbot works" width="800"/>
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant FE as Frontend (Gradio)
+  participant BE as Backend (FastAPI)
+  participant PP as PDF Processor (LangChain)
+  participant VS as Vector Store (FAISS)
+  participant LLM as Language Model (Flan-T5-Base)
+
+  U ->> FE: Upload PDF document
+  FE ->> BE: POST /upload endpoint
+  rect rgb(200, 220, 255)
+    Note over BE, PP: Document Processing Phase
+    BE ->> PP: Check document integrity
+    PP ->> PP: Parse PDF
+    PP ->> PP: Chunk document
+    PP ->> PP: Generate embeddings (SBERT)
+    PP ->> VS: Store embeddings in FAISS
+    PP -->> BE: Processing complete
+  end
+  U ->> FE: Submit query/question
+  FE ->> BE: POST /chat endpoint
+  rect rgb(220, 240, 220)
+    Note over BE, LLM: Query Processing Phase
+    BE ->> BE: Generate query embedding (SBERT)
+    BE ->> VS: Perform similarity search
+    VS -->> BE: Return relevant chunks
+    BE ->> LLM: Generate response with context
+    LLM -->> BE: Return generated response
+  end
+  BE -->> FE: Return formatted response
+  FE -->> U: Display response
+  Note over U, LLM: Error Handling
+  rect rgb(255, 220, 220)
+    BE -->> FE: Invalid document error
+    BE -->> FE: Processing error
+    BE -->> FE: No relevant info found
+    FE -->> U: Display error message
+  end
+```
 
 # Installation
 
@@ -77,7 +116,11 @@ Provide a user-friendly interface for uploading documents and chatting.
 
 Connect to the FastAPI backend for processing and response generation.
 
-# Demo:
+# UI
+
+<div align="center">
+  <img src="UI.png" alt="Chatbot's UI" width="500">
+</div>
 
 # Future Improvements
 

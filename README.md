@@ -16,7 +16,7 @@ sequenceDiagram
     U->>FE: Upload PDF document
     FE->>BE: POST /upload endpoint
     
-    rect rgb(153, 204, 255)
+    rect rgb(51, 102, 255)
         Note over BE,PP: Document Processing Phase
         BE->>PP: Check document integrity
         PP->>PP: Parse PDF
@@ -29,7 +29,7 @@ sequenceDiagram
     U->>FE: Submit query/question
     FE->>BE: POST /chat endpoint
     
-    rect rgb(144, 238, 144)
+    rect rgb(34, 139, 34)
         Note over BE,LLM: Query Processing Phase
         BE->>BE: Generate query embedding (SBERT)
         BE->>VS: Perform similarity search
@@ -42,7 +42,7 @@ sequenceDiagram
     FE-->>U: Display response
 
     Note over U,LLM: Error Handling
-    rect rgb(255, 182, 193)
+    rect rgb(178, 34, 34)
         BE-->>FE: Invalid document error
         BE-->>FE: Processing error
         BE-->>FE: No relevant info found
@@ -66,10 +66,12 @@ cd rag-chatbot
 ```Terminal
 python -m venv venv
 ```
+- MacOS / Linux
 
 ```MacOS / Linux
 source venv/bin/activate
 ```
+- Windows
 
 ```Windows
 venv\Scripts\activate
